@@ -7,6 +7,8 @@ var length = 0;
 var pitch;
 var freq = 0;
 var interval = null;
+var blob, recorder = null;
+var chunks = [];
 
 
 // create web audio api elements
@@ -17,6 +19,7 @@ const color_picker = document.getElementById('color');
 const vol_slider = document.getElementById('vol-slider');
 const thickness_slider = document.getElementById('thickness');
 const sound_type = document.getElementById('sound-type');
+const recording_toggle = document.getElementById('record');
 
 // create Oscillator node
 const oscillator = audioCtx.createOscillator();
@@ -42,13 +45,13 @@ var y = height / 2;
 
 function drawWave() {
   clearInterval(interval);
+  ctx.beginPath();
 
   if (reset) {
     ctx.clearRect(0, 0, width, height);
     x = 0;
     y = height / 2;
     ctx.moveTo(x, y);
-    ctx.beginPath();
     reset = false; 
   }
 
@@ -89,7 +92,7 @@ notenames.set("A", 440.0);
 notenames.set("B", 493.9);
 
 function frequency(pitch) {
-  freq = pitch / 10000;
+  freq = pitch/10000;
   gainNode.gain.setValueAtTime(vol_slider.value/100, audioCtx.currentTime);
   setting = setInterval(() =>
     {gainNode.gain.value = vol_slider.value/100}, 1);
@@ -106,20 +109,19 @@ function frequency(pitch) {
 
 function handle() { 
   reset = true;
-
   var usernotes = String(input.value);
   var noteslist = [];
   length = usernotes.length;
-  timepernote = 6000 / length;
+  timepernote = 6000/length;
 
   for (i = 0; i < usernotes.length; i++) {
     noteslist.push(notenames.get(usernotes.charAt(i)));
   }
 
   let j = 0;
-  repeat = setInterval(() => {
+  const repeat = setInterval(() => {
     if (j < noteslist.length) {
-      frequency(parseInt(noteslist[j]));
+      frequency((noteslist[j]));
       drawWave();
       j++;
     } else {
@@ -131,3 +133,47 @@ function handle() {
 }
 
 
+function startRecording() {
+  const canvasStream = canvas.captureStream(20);
+  const audioDestination = audioCtx.createMediaStreamDestination();
+  const combinedStream = new MediaStream();
+
+  gainNode.connect(audioDestination);
+
+  canvasStream.getVideoTracks().forEach(track => combinedStream.addTrack(track));
+  audioDestination.stream.getAudioTracks().forEach(track => combinedStream.addTrack(track));
+
+  recorder = new MediaRecorder(combinedStream, { mimeType:
+    'video/webm' });
+
+  recorder.ondataavailable = e => {
+ if (e.data.size > 0) {
+   chunks.push(e.data);
+ }
+};
+
+recorder.onstop = () => {
+   const blob = new Blob(chunks, { type: 'video/webm' });
+   const url = URL.createObjectURL(blob);
+   const a = document.createElement('a');
+   a.href = url;
+   a.download = 'recording.webm';
+   a.click();
+   URL.revokeObjectURL(url);
+};
+recorder.start();
+}
+
+var is_recording = false;
+
+function toggle(){
+  is_recording = !is_recording;
+  if(is_recording){
+    recording_toggle.innerHTML = "Stop Recording";
+    startRecording();
+  } else {
+    recording_toggle.innerHTML = "Start Recording";
+    recorder.stop();
+  }
+  
+}
