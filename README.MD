@@ -6,6 +6,6 @@ You can enter musical notes (from C–B), pick a wave colour, change the sound t
 
 this has been coded in js mainly with some html/css.
 
-the playable link is:  
+the playable link is:  https://miyahope.github.io/oscillart-miya
 
 
