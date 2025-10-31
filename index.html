@@ -12,19 +12,40 @@
 
     <div id="container">
 
+<!-- notes -->
+<label for = "input"> Enter notes (from C-B):</label>        
 <input type = "text" id = "input">
+
+
 <button id = "submit" onclick = "handle()"> Submit me why dontcha</button>
+
+<!-- colour picker-->
+ <label for = "color"> Wave colour:</label>  
 <input type = "color" id = "color" value = "#ff0000">
+
 <canvas id = "canvas">
 
 </canvas>
 
+<!-- volume-->
+<label for = "vol-slider"> Volume:</label>  
 <input type = "range" min = "1" max = "100" value = "100" id = "vol-slider">
 
+<!-- line thickness -->
+<label for = "thickness"> Line Thickness:</label>  
+<input type = "range" id = "thickness" min = "1" max = "10" value = "3">
+
+
+<!-- sound type -->
+<label for = "sound-type">Sound Type:</label>
+<select id = "sound-type">
+    <option value="sine">Sine</option>
+    <option value="square">Square</option>
+    <option value="sawtooth">Sawtooth</option>
+    <option value="triangle">Triangle</option>
+</select>
+
     </div>
-
-
-
 
 
 

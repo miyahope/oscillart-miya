@@ -15,7 +15,8 @@ const gainNode = audioCtx.createGain();
 
 const color_picker = document.getElementById('color');
 const vol_slider = document.getElementById('vol-slider');
-
+const thickness_slider = document.getElementById('thickness');
+const sound_type = document.getElementById('sound-type');
 
 // create Oscillator node
 const oscillator = audioCtx.createOscillator();
@@ -31,6 +32,8 @@ var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 var width = ctx.canvas.width;
 var height = ctx.canvas.height;
+
+ctx.lineWidth = thickness_slider.value;
 
 // draw function
 var counter = 0;
@@ -53,9 +56,13 @@ function drawWave() {
   interval = setInterval(line, 20);
 }
 
+
+
 // sin function
 function line() {
+  ctx.lineWidth = thickness_slider.value;
   ctx.strokeStyle = color_picker.value;
+
   y = height / 2 + (vol_slider.value/100)*40 * Math.sin(x * 2 * Math.PI * freq * (0.5 * length));
   ctx.lineTo(x, y);
   ctx.stroke();
@@ -86,6 +93,9 @@ function frequency(pitch) {
   gainNode.gain.setValueAtTime(vol_slider.value/100, audioCtx.currentTime);
   setting = setInterval(() =>
     {gainNode.gain.value = vol_slider.value/100}, 1);
+
+  oscillator.type = sound_type.value;
+
   oscillator.frequency.setValueAtTime(pitch, audioCtx.currentTime);
   setTimeout(() => {clearInterval(setting); gainNode.gain.value = 0; }, ((timepernote)-10));
   
@@ -120,5 +130,4 @@ function handle() {
   audioCtx.resume();
 }
 
-//my turn ?
-// line thickness bar to change it, and type of sound 
+
