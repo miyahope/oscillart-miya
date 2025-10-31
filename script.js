@@ -134,6 +134,7 @@ function handle() {
 
 
 function startRecording() {
+  chucks = [];
   const canvasStream = canvas.captureStream(20);
   const audioDestination = audioCtx.createMediaStreamDestination();
   const combinedStream = new MediaStream();
@@ -160,6 +161,9 @@ recorder.onstop = () => {
    a.download = 'recording.webm';
    a.click();
    URL.revokeObjectURL(url);
+   recorder = null; 
+   is_recording = false; 
+   recording_toggle.innerHTML = "Start Recording"; 
 };
 recorder.start();
 }
@@ -177,3 +181,6 @@ function toggle(){
   }
   
 }
+
+fffffffffff
+ssssDDDD
