@@ -19,14 +19,13 @@ h1 {
 }
 
 #container {
-  padding: 2.5px ; 
-  
-  border-radius: 12px;
-  background: white;
-  box-shadow: 0 6px 16px #987ab9;
+  padding: 2.5px; 
   display: flex;
   flex-direction: column;
   align-items: center; 
+  border-radius: 12px;
+  background: white;
+  
   gap: 10px;
   
 }
@@ -60,11 +59,11 @@ input[type="text"] {
 
 input[type="color"] {
   border: none;
+  border-radius: 5px;
   width: 40px;
   height: 30px;
-  border-radius: 5px;
 }
-
+/* find how to change bar colours */
 input[type="range"] {
   width: 100%;
   accent-color: #bd9ddf; /*for da bars */
@@ -72,20 +71,22 @@ input[type="range"] {
 
 /* sound types (the dropdown thingy) */
 select {
-  width: 100%;
-  border-radius: 6px;
-  border: 1px solid #d6d1ca;
-  background: #fdfcf9;
   font-family: 'Lucida Console', monospace;
   font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #d6d1ca;
+  width: 100%;
+  
+  background: #fdfcf9;
+  
 }
 
 button {
-  background-color: #bd9ddf;
-  color: white;
-  border: none;
+  font-family: 'Lucida Console', monospace;
   padding: 1px;
   border-radius: 8px;
-  font-family: 'Lucida Console', monospace;
+  border: none;
+  background-color: #bd9ddf;
+  color: white;
 }
 
